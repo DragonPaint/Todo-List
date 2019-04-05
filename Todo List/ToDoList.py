@@ -61,74 +61,96 @@ def todo_new_user(users, user_current, user_current_encoded):
 def todo_encode(user_current, user_current_encoding_array):
     user_current_encoded = ""
     # clears user_current_encoded
-    abc_itteration = 0
+    abc_iteration = 0
+    # A value that increses every time the for loop iterates to make user_current_encoding_array change value
     user_current_encoding = ["ijk"]
     # Opens user_current_encoding
     for letters in user_current:
+        # letters becomes every letter in users_current one at a time every iteration of the for loop
         if 96 <= ord(letters) <= 123:
+            # Checks if the ascii value is between 96 and 123 = a -> z
             ascii_numbers = ord(letters)
-            ascii_numbers += user_current_encoding_array[abc_itteration]
+            # Makes ascii_numbers = the ascii value of the letter in letters
+            ascii_numbers += user_current_encoding_array[abc_iteration]
+            # Adds the current value of the user_current_encoding_array
             if ascii_numbers >= 123:
                 ascii_numbers -= 26
+                # Checks if the ascii values are higher than the highest value of 123 = z and then removes 26
             user_current_encoding.append(chr(int(ascii_numbers)))
         elif 64 <= ord(letters) <= 91:
+            # Checks if the ascii value is between 64 and 91 = A -> Z
             ascii_numbers = ord(letters)
-            ascii_numbers += user_current_encoding_array[abc_itteration]
+            # Makes ascii_numbers = the ascii value of the letter in letters
+            ascii_numbers += user_current_encoding_array[abc_iteration]
+            # Adds the current value of the user_current_encoding_array
             if ascii_numbers >= 91:
                 ascii_numbers -= 26
-                # Checks if the ascii characters
+                # Checks if the ascii values are higher than the highest value of 91 = Z and then removes 26
             user_current_encoding.append(chr(int(ascii_numbers)))
         elif ord(letters) == 95:
             user_current_encoding.append(" ")
-            # Underscore = blankspace
+            # Underscore = blank space and adds it to user_current_encoding
         else:
             user_current_encoding.append(letters)
             # Checks if every letter is either normal, capital, underscore or else and inputs the result from the calculation in user_current_encoding
-        abc_itteration += 1
+        abc_iteration += 1
+        # Iterates abc_iteration by adding +1 for each for loop
 
     for converter in user_current_encoding:
         user_current_encoded += '%s' % converter
-
+    # Adds everything to user current_encoded so it is stored as a single string
     user_current_encoding.clear()
     return user_current_encoded
 
 
 def user_list_add(user_list, user_current, users, user_current_encoded):
-    user_add_note = input("What do you want to add " + user_current + "? Or type: exit = ")
+    user_add_note = input("Type out what you want to add " + user_current + " or type: exit = ")
+    # Asks the user to input the note
     keys_list = user_list.keys()
-    user_add_number_print = ""
+    user_add_id_print = ""
+    # Clears number_print
     for key in keys_list:
-        user_add_number_print += "%s, " % key
+        user_add_id_print += "%s, " % key
+    # Makes a nice list of all the id's in the users user_list
     print("Input an id for your note, it will not be sorted in order.")
-    user_add_number = input("Already used id;s include: " + user_add_number_print)
+    user_add_id = input("Already used id;s include: " + user_add_id_print)
+    # Asks the user for an id and prints the already used id's
     if user_add_note.lower() != "exit":
-        user_list[user_add_number] = user_add_note
+        user_list[user_add_id] = user_add_note
+        # Adds the note to user_list using the id
         todo_list(user_list, user_current, users, user_current_encoded)
+        # Goes back to todo_list
     else:
         todo_options(user_list, user_current, user_current_encoded)
+        # Goes back to todo_options if you choose to exit
 
 
 def user_list_remove(user_list, user_current, users, user_current_encoded):
-    user_remove = input(user_current + " what id do you want to delete? Or type: exit = ")
+    user_remove = input(user_current + " what id do you want to delete or type: exit = ")
     if user_remove.lower() != "exit":
         if user_remove in user_list:
             del user_list[user_remove]
         todo_list(user_list, user_current, users, user_current_encoded)
+        # Goes back to todo_list
     else:
         todo_options(user_list, user_current, users, user_current_encoded)
+        # Goes back to todo_options if you choose to exit
 
 
 def user_list_modify(user_list, user_current, users, user_current_encoded):
-    user_modify = input("Witch id do you want to modify " + user_current + "? Or type: exit = ")
+    user_modify = input("Witch id do you want to modify " + user_current + " or type: exit = ")
     if user_modify.lower() != "exit":
         if user_modify in user_list:
             user_modify_modification = input("What do you want to replace : " + user_list[user_modify] + " with? ")
             user_list[user_modify] = user_modify_modification
             todo_list(user_list, user_current, users, user_current_encoded)
+            # Goes back to todo_list
         else:
             user_list_modify(user_list, user_current, users, user_current_encoded)
+            # Restarts modify because the input id did not exist
     else:
         todo_options(user_list, user_current, users, user_current_encoded)
+        # Goes back to todo_options if you choose to exit
 
 
 def user_list_changeuser(user_list, user_current, users, user_current_encoded):
@@ -142,12 +164,15 @@ def todo_list(user_list, user_current, users, user_current_encoded):
     user_list_print = ""
     with open(users[user_current_encoded], 'w') as outfile:
         json.dump(user_list, outfile)
-
+    # Saves the current user list every time todo_list is launched to decrease the size of user_add/remove/modify
     for z in user_list:
         user_list_print += "%s: %s,\n" % (z, user_list[z])
+    # Makes the user_list_print a list that adds the Id and the associating user_list note
     print("This is " + user_current + "'s current Todo list:")
     print(user_list_print)
+    # Prints the user_list
     todo_options(user_list, user_current, users, user_current_encoded)
+    # Launches the options menu
 
 
 user_program_dict = {
@@ -160,13 +185,18 @@ user_program_dict = {
 
 def todo_options(user_list, user_current, users, user_current_encoded):
     user_option = input("Do you want to?: Add, Remove, Modify, Changeuser, Exit ").lower()
+    # .lower() makes all the input characters lower case to make sure it works with lower and upper case characters
     if user_option in user_program_dict:
+        # Checks if the user input was the same as any item in the user program dictionary
         user_program_dict[user_option](user_list, user_current, users, user_current_encoded)
+        # Starts the program that was selected
     elif user_option == "exit":
         exit()
+        # turns the program off
     else:
         print("Ops, something went wrong. I shall send you back")
         todo_options(user_list, user_current, users, user_current_encoded)
+        # if the input does not match any option then it relaunches the method todo_options
 
 
 def launcher():

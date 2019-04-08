@@ -125,16 +125,58 @@ def user_list_add(user_list, user_current, users, user_current_encoded):
         # Goes back to todo_options if you choose to exit
 
 
+def user_list_add_multiple(user_list, user_current, users, user_current_encoded):
+    user_add_multiple = input("How many times do you to repeat Add? ")
+    for z in range(int(user_add_multiple)):
+        user_add_note = input("Type out the note you want to add " + user_current + " or type: exit = ")
+        # Asks the user to input the note
+        keys_list = user_list.keys()
+        user_add_id_print = ""
+        # Clears number_print
+        for key in keys_list:
+            user_add_id_print += "%s, " % key
+        # Makes a nice list of all the id's in the users user_list
+        print("Input an id for your note, it will not be sorted in order.")
+        user_add_id = input("Already used id;s include: " + user_add_id_print)
+        # Asks the user for an id and prints the already used id's
+        if user_add_note.lower() != "exit":
+            user_list[user_add_id] = user_add_note
+            # Adds the note to user_list using the id
+        else:
+            todo_list(user_list, user_current, users, user_current_encoded)
+            # Goes back to todo_list if you choose to exit
+    todo_list(user_list, user_current, users, user_current_encoded)
+    # Goes back to todo_options once done
+
+
 def user_list_remove(user_list, user_current, users, user_current_encoded):
     user_remove = input(user_current + " what id do you want to delete or type: exit = ")
     if user_remove.lower() != "exit":
         if user_remove in user_list:
+            # makes sure you are removing a valid id
             del user_list[user_remove]
         todo_list(user_list, user_current, users, user_current_encoded)
         # Goes back to todo_list
     else:
         todo_options(user_list, user_current, users, user_current_encoded)
         # Goes back to todo_options if you choose to exit
+
+
+def user_list_remove_multiple(user_list, user_current, users, user_current_encoded):
+    user_multiple_remove = input("How many times do you to repeat Remove? ")
+    for z in range(int(user_multiple_remove)):
+        user_remove = input(user_current + " what id do you want to delete or type: exit = ")
+        if user_remove.lower() != "exit":
+            if user_remove in user_list:
+                # makes sure you are removing a valid id
+                del user_list[user_remove]
+                print("id: " + user_remove + "Removed")
+                # Prints the id if the item you just removed
+        else:
+            todo_list(user_list, user_current, users, user_current_encoded)
+            # Goes back to todo_list if you choose exit
+    todo_list(user_list, user_current, users, user_current_encoded)
+    # Goes back to todo_options once done
 
 
 def user_list_modify(user_list, user_current, users, user_current_encoded):
@@ -177,14 +219,16 @@ def todo_list(user_list, user_current, users, user_current_encoded):
 
 user_program_dict = {
     "add": user_list_add,
+    "addmultiple": user_list_add_multiple,
     "remove": user_list_remove,
+    "removemultiple": user_list_remove_multiple,
     "modify": user_list_modify,
     "changeuser": user_list_changeuser,
 }
 
 
 def todo_options(user_list, user_current, users, user_current_encoded):
-    user_option = input("Do you want to?: Add, Remove, Modify, Changeuser, Exit ").lower()
+    user_option = input("Do you want to?: Add, AddMultiple, Remove, RemoveMultiple, Modify, ChangeUser, Exit ").lower()
     # .lower() makes all the input characters lower case to make sure it works with lower and upper case characters
     if user_option in user_program_dict:
         # Checks if the user input was the same as any item in the user program dictionary

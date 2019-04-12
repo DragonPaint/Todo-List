@@ -42,7 +42,7 @@ def todo_user():
 
 
 def todo_new_user(users, user_current, user_current_encoded):
-    correct = input("Is " + user_current + " a new user? If not press: n and then enter.")
+    correct = input("Is " + user_current + " a new user? If your input was incorrect press: n and then enter. To create new user just press: enter")
     # Double checks if you wrote the correct username if it is not in the users dictionary
     if correct.lower() == "n":
         print("Try again")
@@ -62,7 +62,7 @@ def todo_encode(user_current, user_current_encoding_array):
     user_current_encoded = ""
     # clears user_current_encoded
     abc_iteration = 0
-    # A value that increses every time the for loop iterates to make user_current_encoding_array change value
+    # A value that increases every time the for loop iterates to make user_current_encoding_array change value
     user_current_encoding = ["ijk"]
     # Opens user_current_encoding
     for letters in user_current:
@@ -126,7 +126,7 @@ def user_list_add(user_list, user_current, users, user_current_encoded):
 
 
 def user_list_add_multiple(user_list, user_current, users, user_current_encoded):
-    user_add_multiple = input("How many times do you to repeat Add? ")
+    user_add_multiple = input("How many notes do you want to Add? ")
     for z in range(int(user_add_multiple)):
         user_add_note = input("Type out the note you want to add " + user_current + " or type: exit = ")
         # Asks the user to input the note
@@ -155,6 +155,7 @@ def user_list_remove(user_list, user_current, users, user_current_encoded):
         if user_remove in user_list:
             # makes sure you are removing a valid id
             del user_list[user_remove]
+            print("id: " + user_remove + " Removed")
         todo_list(user_list, user_current, users, user_current_encoded)
         # Goes back to todo_list
     else:
@@ -163,14 +164,14 @@ def user_list_remove(user_list, user_current, users, user_current_encoded):
 
 
 def user_list_remove_multiple(user_list, user_current, users, user_current_encoded):
-    user_multiple_remove = input("How many times do you to repeat Remove? ")
+    user_multiple_remove = input("How many notes do you want to Remove? ")
     for z in range(int(user_multiple_remove)):
         user_remove = input(user_current + " what id do you want to delete or type: exit = ")
         if user_remove.lower() != "exit":
             if user_remove in user_list:
                 # makes sure you are removing a valid id
                 del user_list[user_remove]
-                print("id: " + user_remove + "Removed")
+                print("id: " + user_remove + " Removed")
                 # Prints the id if the item you just removed
         else:
             todo_list(user_list, user_current, users, user_current_encoded)

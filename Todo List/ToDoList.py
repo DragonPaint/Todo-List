@@ -226,7 +226,7 @@ user_program_dict = {
     "modify": user_list_modify,
     "changeuser": user_list_changeuser,
 }
-
+# A list of starteble methods
 
 def todo_options(user_list, user_current, users, user_current_encoded):
     user_option = input("Do you want to?: Add, AddMultiple, Remove, RemoveMultiple, Modify, ChangeUser, Exit ").lower()
